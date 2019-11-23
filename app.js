@@ -10,6 +10,15 @@ const app = express();
 
 require('./db/db');
 
+/**
+ * * Node, Express, Mongo, JWT:
+ * https://medium.com/swlh/jwt-authentication-authorization-in-nodejs-express-mongodb-rest-apis-2019-ad14ec818122
+ * https://medium.com/codingthesmartway-com-blog/the-mern-stack-tutorial-building-a-react-crud-application-from-start-to-finish-part-2-637f337e5d61
+ * WEBSOCKET: 
+ * Node unit 7, 
+ * https://blackboard.au.dk/bbcswebdav/pid-2316813-dt-content-rid-7651017_1/courses/BB-Cou-UUVA-86322/10%20WebSocket/10a%20WebSocket.pdf
+ */
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
