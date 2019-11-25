@@ -1,22 +1,43 @@
 const mongoose = require('mongoose');
 const dbURI = process.env.MONGODB_URL;
 
-mongoose.connect(dbURI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-});
+mongoose.Promise = Promise;
+
+// await mongoose.connect(dbURI, {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useUnifiedTopology: true
+// });
 
 const db = mongoose.connection;
-mongoose.connection.on('connected', () => {
+db.on('connected', () => {
   console.log(`Mongoose connected to ${dbURI}`)
 });
-mongoose.connection.on('error', (error) => {
+db.on('reconnected', () => {
+  console.log('Connection Reestablished')
+});
+db.on('error', (error) => {
   console.log(`Mongoose connection error: `, error);
 });
-mongoose.connection.on('disconnected', () => {
+db.on('disconnected', () => {
   console.log('Mongoose disconnected');
 });
+db.on('close', () => {
+  console.log('Connection Closed')
+});
+
+const run = async () => {
+  await mongoose.connect(dbURI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    autoReconnect: true,
+    reconnectTries: 1000000,
+    reconnectInterval: 3000
+  });
+};
+
+run().catch(error => console.error(error));
 
 // For nodemon restart
 process.once('SIGUSR2', () => {

@@ -8,17 +8,23 @@
   "dependencies": {
     "bcrypt": "^3.0.7",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "env-cmd": "^10.0.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
+    "longjohn": "^0.2.12",
     "mongodb": "^3.3.4",
     "mongoose": "^5.7.12",
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
     "socket.io": "^2.3.0",
-    "validator": "^12.1.0"
+    "validator": "^12.1.0",
+    "ws": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^6.0.3"
   }
 }

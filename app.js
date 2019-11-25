@@ -6,7 +6,10 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const scoreRouter = require('./routes/score');
+const cors = require('cors');
 const app = express();
+app.use(cors());
+
 
 require('./db/db');
 
@@ -47,6 +50,8 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+
 });
+
 
 module.exports = app;
