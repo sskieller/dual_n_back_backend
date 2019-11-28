@@ -38,10 +38,12 @@ module.exports = function (io/*,sharedSession ,sessionSetup */) {
           try {
             // If a new highscore has been made
             if (currentHighscore < newScore.score) {
+              
               newHighscore = new Highscore(data);
               currentHighscore = newHighscore.score;
 
               // Emit new score to all subscribers
+              // Remember to listen for the event while testing/using
               io.sockets.emit('highscore', { score: currentHighscore });
               // Save new highscore to database
               scoreController.addNewHighscoreWS(newHighscore);
