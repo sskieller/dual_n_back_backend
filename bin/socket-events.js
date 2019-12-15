@@ -2,11 +2,15 @@ let scoreController = require("../controllers/scoreController");
 const Score = require("../models/Score");
 const Highscore = require("../models/HighScore");
 
-let currentHighscore = 0;
+let currentHighscores = [];
 
 /**
  * /
  */
+
+function sortNumber(a, b) {
+	return a - b;
+  }
 
 module.exports = function (io/*,sharedSession ,sessionSetup */) {
 	
@@ -14,38 +18,45 @@ module.exports = function (io/*,sharedSession ,sessionSetup */) {
 		socket => {
 			console.log("Socket started");
 			// if (currentHighscore === 0) {
+				Highscore.find
 				Highscore.findOne({}, (err, highscore) => {
 					// if no highscore is saved in database
 					if (err) {
-						currentHighscore = 0;
-						console.log("The current highscore is: " + currentHighscore);
+						currentHighscores = [0];
 					}
 					// if highscore saved in database
 					if (highscore) {
-						console.log("The current highscore is: " + highscore);
-						currentHighscore = highscore.score;
+						currentHighscores = highscore.score;
 					}
-					socket.emit("highscore", { score: currentHighscore });
+					socket.emit("highscore", { score: currentHighscores });
 				});
 			// }
 
 			socket.on("score", (data) => {
 				const newScore = new Score(data);
 				socket.emit("score", newScore);
-
-				console.log("newScore: " + newScore);
+				console.log("New score recieved: " + newScore.score);
 				try {
 					scoreController.addNewScoreWS(newScore);
 					try {
 						// If a new highscore has been made
-						if (currentHighscore < newScore.score) {
-							let newHighscore = new Highscore(data);
-							currentHighscore = newHighscore.score;
+						currentHighscores.sort(sortNumber);
+						if(currentHighscores[0] < newScore.score || currentHighscores.length < 10) {
+
+							if(currentHighscores.length < 10){
+								currentHighscores.push(newScore.score);
+							}else{
+								currentHighscores[0] = newScore.score;
+							}
+							
+							let newHighscores = new Highscore();
+							newHighscores.score = currentHighscores;
+
 							// Emit new score to all subscribers
 							// Remember to listen for the event while testing/using
-							io.sockets.emit("highscore", { score: currentHighscore });
-							// Save new highscore to database
-							scoreController.addNewHighscoreWS(newHighscore);
+							io.sockets.emit("highscore", { score: currentHighscores });
+							// Save new highscores to database
+							scoreController.addNewHighscoreWS(newHighscores);
 						}
 					} catch (error) {
 						console.error("failed to save highscore" + error);

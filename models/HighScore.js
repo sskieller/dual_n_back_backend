@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const highscoreSchema = mongoose.Schema({
   score: {
-    type: Number,
+    type: Array,
     required: true,
     trim: true,
   }
