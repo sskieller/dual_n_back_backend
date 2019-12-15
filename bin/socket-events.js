@@ -9,22 +9,25 @@ let currentHighscore = 0;
  */
 
 module.exports = function (io/*,sharedSession ,sessionSetup */) {
+	
 	io.on("connection",
 		socket => {
 			console.log("Socket started");
-			if (currentHighscore === 0) {
+			// if (currentHighscore === 0) {
 				Highscore.findOne({}, (err, highscore) => {
 					// if no highscore is saved in database
 					if (err) {
 						currentHighscore = 0;
+						console.log("The current highscore is: " + currentHighscore);
 					}
 					// if highscore saved in database
 					if (highscore) {
+						console.log("The current highscore is: " + highscore);
 						currentHighscore = highscore.score;
 					}
 					socket.emit("highscore", { score: currentHighscore });
 				});
-			}
+			// }
 
 			socket.on("score", (data) => {
 				const newScore = new Score(data);
