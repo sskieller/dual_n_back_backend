@@ -10,7 +10,7 @@ let currentHighscores = [];
 
 function sortNumber(a, b) {
 	return a - b;
-  }
+}
 
 module.exports = function (io/*,sharedSession ,sessionSetup */) {
 	
@@ -50,6 +50,7 @@ module.exports = function (io/*,sharedSession ,sessionSetup */) {
 							}
 							
 							let newHighscores = new Highscore();
+							currentHighscores.sort(sortNumber);
 							newHighscores.score = currentHighscores;
 
 							// Emit new score to all subscribers
