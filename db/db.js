@@ -3,6 +3,10 @@ const dbURI = process.env.MONGODB_URL;
 
 mongoose.Promise = Promise;
 
+// MONGODB_URL=mongodb://localhost:27017/dual-n-back
+// JWT_KEY=576g8j99bvb8h9b8yb89b
+// PORT=4000   
+
 // await mongoose.connect(dbURI, {
 //   useNewUrlParser: true,
 //   useCreateIndex: true,
@@ -27,7 +31,7 @@ db.on('close', () => {
 });
 
 const run = async () => {
-  await mongoose.connect(dbURI, {
+  await mongoose.connect('mongodb+srv://nbackUser:nbackPassword@nbackdatabase-in1ry.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
