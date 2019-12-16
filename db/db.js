@@ -31,7 +31,7 @@ db.on('close', () => {
 });
 
 const run = async () => {
-  await mongoose.connect('mongodb+srv://nbackUser:nbackPassword@nbackdatabase-in1ry.mongodb.net/test?retryWrites=true&w=majority', {
+  await mongoose.connect(dbURI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
